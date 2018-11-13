@@ -14,12 +14,11 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        guard let image = UIImage(named: "3Famous") else { return }
+        guard let image = UIImage(named: "Albert") else { return }
         let imageView = UIImageView(image: image)
         imageView.contentMode = .scaleAspectFit
         let scaledHeight = view.frame.width / image.size.width * image.size.height
-        imageView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: scaledHeight)
-//        imageView.frame = CGRect(x: 0, y: (view.center.y - (scaledHeight / 2)), width: view.frame.width, height: scaledHeight)
+        imageView.frame = CGRect(x: 0, y: (view.center.y - (scaledHeight / 2)), width: view.frame.width, height: scaledHeight)
         view.addSubview(imageView)
         
         let request = VNDetectFaceRectanglesRequest { (req, err) in
@@ -34,8 +33,7 @@ class ViewController: UIViewController {
                     guard let faceObservation = res as? VNFaceObservation else { return }
                     let x = self.view.frame.width * faceObservation.boundingBox.origin.x
                     let height = scaledHeight * faceObservation.boundingBox.height
-                    let y = scaledHeight * (1 - faceObservation.boundingBox.origin.y) - height
-//                    let y = (self.view.center.y * (1 - faceObservation.boundingBox.origin.y)) + (height / 4)
+                    let y = (scaledHeight * (1 - faceObservation.boundingBox.origin.y) - height) + (self.view.center.y - (scaledHeight / 2))
                     let width = self.view.frame.width * faceObservation.boundingBox.width
                     
                     let redView = UIView()
